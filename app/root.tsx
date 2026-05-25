@@ -33,27 +33,44 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <MainMenu></MainMenu>
-        <ItemsListHeader></ItemsListHeader>
+        <MainMenu values={[{ value: "#", name: "Список товаров" }, { value: "#", name: "О нас" }, { value: "#", name: "Корзина" },]}></MainMenu>
+        <ItemsListHeader showDate={true}></ItemsListHeader>
+        <main>
+          <section style={{ margin: 20, padding: 20, display: "flex" }}>
+            <ItemCard description="Новый IPhone" imageSrc="phone.png" count={0}></ItemCard>
+            <ItemCard description="Новый IPhone" imageSrc="phone.png" count={0}></ItemCard>
+          </section>
+        </main>
         {children}
         <ScrollRestoration />
         <Scripts />
       </body>
-    </html>
+    </html >
   );
 }
 
-export function MainMenu() {
+export function ItemCard({ description, imageSrc, count }) {
+  return (<div>
+    <ItemCardImg src={imageSrc} />
+    <p>{description}</p>
+    <button>+</button>
+    <p>{count}</p>
+    <button >-</button>
+  </div>);
+}
+
+export function MainMenu({ values }) {
   return (<section className="header">
-    <a href="#">Список товаров</a>
-    <a href="#"> О нас</a>
-    <a href="#"> Корзина</a>
+    {values.map(x => <a href={x.value}>{x.name}</a>)}
   </section>);
 }
 
-export function ItemsListHeader() {
-  const showDate = false;
+export function ItemsListHeader({ showDate }) {
   return (<h1 className="itemListHeaderH1">Списов товаров {showDate ? <span>{new Date().getFullYear()} </span> : <span></span>}</h1>)
+}
+
+export function ItemCardImg({ src, width = 250 }) {
+  return (<img src={src} width={width} />)
 }
 
 export default function App() {
